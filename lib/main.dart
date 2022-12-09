@@ -88,11 +88,11 @@ class Startpage extends StatelessWidget {
           padding: const EdgeInsets.all(32.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Spacer(
+            children: const [
+              /*const Spacer(
                 flex: 3,
-              ),
-              const Text(
+              ),*/
+              Text(
                 'Willkommen in der Knüppel App!',
                 style: TextStyle(
                     color: Colors.black,
@@ -100,7 +100,7 @@ class Startpage extends StatelessWidget {
                     fontWeight: FontWeight.w600),
                 textAlign: TextAlign.center,
               ),
-              const Spacer(
+              /*const Spacer(
                 flex: 1,
               ),
               const Text(
@@ -124,7 +124,7 @@ class Startpage extends StatelessWidget {
               ),
               const Spacer(
                 flex: 2,
-              )
+              )*/
             ],
           ),
         ),

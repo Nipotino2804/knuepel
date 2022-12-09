@@ -19,6 +19,5 @@
 #### Version 1.0.5
 - Bug fix
 - Add Textfiel Autosubmit
-- Add Multiplayer
 - Add Tooltips to Buttons
 - Update Informations in the Information Page
