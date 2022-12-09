@@ -27,7 +27,7 @@ class InforamtionPage extends StatelessWidget {
         padding: EdgeInsets.all(32.0),
         child: Center(
           child: Text(
-            '''Um ein Feld zu streichen muss man auf das Eingabefeld doppelt drauf tippen.
+            '''Um ein Feld zu streichen muss man Null eingeben oder doppelt auf das Feld drauf tippen.
                 
                 Um alle Ergebnisse zurück zu setzten kann man unten auf den blauen Button tippen. 
                 
