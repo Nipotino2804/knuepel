@@ -444,6 +444,9 @@ class _PlaypageState extends State<Playpage> {
   }
 
   void resetAll() {
+    player = 1;
+
+// Würfel
     dice1 = 0;
     dice2 = 0;
     dice3 = 0;
