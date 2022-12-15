@@ -21,3 +21,4 @@
 - Add Textfiel Autosubmit
 - Add Tooltips to Buttons
 - Update Informations in the Information Page
+- Change Appicon
