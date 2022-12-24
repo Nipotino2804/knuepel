@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kniffel/pages/start.dart';
 import 'package:kniffel/variables.dart';
-import 'package:kniffel/widgets.dart';
 
 void main() => runApp(const MyApp());
 
