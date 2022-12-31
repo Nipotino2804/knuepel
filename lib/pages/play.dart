@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kniffel/main.dart';
+import 'package:kniffel/functions.dart';
+import 'package:kniffel/textfielcontroller.dart';
 import 'package:kniffel/variables.dart';
 import 'package:kniffel/widgets.dart';
 
@@ -14,12 +15,14 @@ class _PlaypageState extends State<Playpage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: scaffoldBackgroundColor,
         floatingActionButton: FloatingActionButton(
             tooltip: 'Zurücksetzten',
             child: const Icon(Icons.restart_alt),
             onPressed: () {
               setState(() {
-                resetAll();
+                resetQuest(context);
+                calculate();
               });
             }),
         // appBar: costomAppbar(text: 'Knüppel'),
@@ -34,60 +37,67 @@ class _PlaypageState extends State<Playpage> {
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Table(
                     defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                    border: TableBorder.all(color: Colors.black, width: 1.5),
+                    border:
+                        TableBorder.all(color: tableBorderColor, width: 1.5),
                     children: [
                       costomTableRowDices(
-                          picture: 'assets/01.png',
+                          picture: dice1picture,
+                          controller: controllerDice1,
                           content: 'nur Einsen\nzählen',
                           textFieldInput: (value) {
                             setState(() {
-                              dice1 = int.parse(value);
-                              calculate();
+                              checkEmpty(
+                                  number: 1, input: value, context: context);
                             });
                           }),
                       costomTableRowDices(
-                          picture: 'assets/02.png',
+                          controller: controllerDice2,
+                          picture: dice2picture,
                           content: 'nur Zweier\nzählen',
                           textFieldInput: (value) {
                             setState(() {
-                              dice2 = int.parse(value);
-                              calculate();
+                              checkEmpty(
+                                  number: 2, input: value, context: context);
                             });
                           }),
                       costomTableRowDices(
-                          picture: 'assets/03.png',
+                          controller: controllerDice3,
+                          picture: dice3picture,
                           content: 'nur Dreier\nzählen',
                           textFieldInput: (value) {
                             setState(() {
-                              dice3 = int.parse(value);
-                              calculate();
+                              checkEmpty(
+                                  number: 3, input: value, context: context);
                             });
                           }),
                       costomTableRowDices(
-                          picture: 'assets/04.png',
+                          controller: controllerDice4,
+                          picture: dice4picture,
                           content: 'nur Vierer\nzählen',
                           textFieldInput: (value) {
                             setState(() {
-                              dice4 = int.parse(value);
-                              calculate();
+                              checkEmpty(
+                                  number: 4, input: value, context: context);
                             });
                           }),
                       costomTableRowDices(
-                          picture: 'assets/05.png',
+                          controller: controllerDice5,
+                          picture: dice5picture,
                           content: 'nur Fünfer\nzählen',
                           textFieldInput: (value) {
                             setState(() {
-                              dice5 = int.parse(value);
-                              calculate();
+                              checkEmpty(
+                                  number: 5, input: value, context: context);
                             });
                           }),
                       costomTableRowDices(
-                          picture: 'assets/06.png',
+                          controller: controllerDice6,
+                          picture: dice6picture,
                           content: 'nur Sechser\nzählen',
                           textFieldInput: (value) {
                             setState(() {
-                              dice6 = int.parse(value);
-                              calculate();
+                              checkEmpty(
+                                  number: 6, input: value, context: context);
                             });
                           }),
                       costomTableRowSum(
@@ -112,24 +122,27 @@ class _PlaypageState extends State<Playpage> {
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Table(
                     defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                    border: TableBorder.all(color: Colors.black, width: 1.5),
+                    border:
+                        TableBorder.all(color: tableBorderColor, width: 1.5),
                     children: [
                       costomTableRowPasch(
+                          controller: controllerThreePasch,
                           content: 'Dreierpasch',
                           contentMiddle: 'alle Augen\nzählen',
                           textFieldInput: (value) {
                             setState(() {
-                              treepasch = int.parse(value);
-                              calculate();
+                              checkEmpty(
+                                  number: 7, input: value, context: context);
                             });
                           }),
                       costomTableRowPasch(
+                          controller: controllerFourPasch,
                           content: 'Viererpasch',
                           contentMiddle: 'alle Augen\nzählen',
                           textFieldInput: (value) {
                             setState(() {
-                              fourpasch = int.parse(value);
-                              calculate();
+                              checkEmpty(
+                                  number: 8, input: value, context: context);
                             });
                           }),
                       costomTableRowSwitch(
@@ -226,6 +239,7 @@ class _PlaypageState extends State<Playpage> {
                           },
                           startValue: kniffel),
                       costomTableRowPasch(
+                          controller: controlerChance,
                           content: 'Chance',
                           contentMiddle: 'alle Augen\nzählen',
                           textFieldInput: (value) {
@@ -254,8 +268,8 @@ class _PlaypageState extends State<Playpage> {
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Table(
-                        border:
-                            TableBorder.all(color: Colors.black, width: 1.5),
+                        border: TableBorder.all(
+                            color: tableBorderColor, width: 1.5),
                         defaultVerticalAlignment:
                             TableCellVerticalAlignment.middle,
                         children: [
@@ -266,10 +280,10 @@ class _PlaypageState extends State<Playpage> {
                         ],
                       ),
                     ),
-                    const Divider(
+                    /* const Divider(
                       thickness: 1.5,
                       color: Colors.black,
-                    ),
+                    ), */
                     const SizedBox(
                       height: 70,
                     ),
@@ -279,85 +293,31 @@ class _PlaypageState extends State<Playpage> {
             }));
   }
 
-  void calculateAll() {
-    setState(() {
-      allSum = topSum + downSum;
-    });
-  }
-
-  void checkBonus() {
-    zwSum = dice1 + dice2 + dice3 + dice4 + dice5 + dice6;
-    if (zwSum >= 63) {
-      topSum = zwSum + 35;
-      bonus = 'Ja';
-    } else {
-      topSum = zwSum;
-      bonus = 'Nein';
-    }
-  }
-
-  void calculateDown() {
-    downSum = treepasch + fourpasch;
-    if (fullhouse == true) {
-      downSum = downSum + 25;
-    }
-    if (smallStreet == true) {
-      downSum = downSum + 30;
-    }
-    if (bigStreet == true) {
-      downSum = downSum + 40;
-    }
-    if (kniffel == true) {
-      downSum = downSum + 50;
-    }
-    downSum = downSum + chance;
-  }
-
-  void resetAll() {
-    player = 1;
-
-// Würfel
-    dice1 = 0;
-    dice2 = 0;
-    dice3 = 0;
-    dice4 = 0;
-    dice5 = 0;
-    dice6 = 0;
-
-//Summen
-    zwSum = 0;
-    topSum = 0;
-    downSum = 0;
-    allSum = 0;
-
-// Pasche
-    treepasch = 0;
-    fourpasch = 0;
-
-    fullhouse = false;
-    smallStreet = false;
-    bigStreet = false;
-    kniffel = false;
-
-    canceldFullhouse = false;
-    canceldSmallStreet = false;
-    canceldBigStreet = false;
-    canceldKniffel = false;
-
-    chance = 0;
-    bgColor = Colors.white;
-
-    colorFullhouse = Colors.white;
-    colorSmallStreet = Colors.white;
-    colorBigStreet = Colors.white;
-    colorKniffel = Colors.white;
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const MyApp()));
-  }
-
-  void calculate() {
-    checkBonus();
-    calculateDown();
-    calculateAll();
+  resetQuest(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        actions: [
+          TextButton(
+              onPressed: () {
+                setState(() {
+                  reset();
+                  downSum = 0;
+                  zwSum = 0;
+                  allSum = 0;
+                  topSum = 0;
+                  Navigator.pop(context, 'Ja');
+                });
+              },
+              child: const Text("Ja")),
+          TextButton(
+              onPressed: () => Navigator.pop(context, 'Nein'),
+              child: const Text('Nein'))
+        ],
+        title: const Text('Zurücksetzten'),
+        content: const Text(
+            'Möchten sie ihre Ergebnise wirklick zurücksetzten? Das Zurücksetzten kann nicht rückgängig gemacht werden!'),
+      ),
+    );
   }
 }

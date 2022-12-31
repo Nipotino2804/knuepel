@@ -22,3 +22,7 @@
 - Add Tooltips to Buttons
 - Update Informations in the Information Page
 - Change Appicon
+
+#### Version 1.1.0
+- Add Numbercontroller
+- Add Resetrequest
