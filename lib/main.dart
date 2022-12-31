@@ -3,10 +3,7 @@ import 'package:kniffel/functions.dart';
 import 'package:kniffel/pages/start.dart';
 import 'package:kniffel/variables.dart';
 
-void main() {
-  chooseColors();
-  runApp(const MyApp());
-}
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

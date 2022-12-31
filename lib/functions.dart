@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:kniffel/textfielcontroller.dart';
 import 'package:kniffel/variables.dart';
 
-void chooseColors() {}
-
 void checkEmpty(
     {required int number,
     required String input,
