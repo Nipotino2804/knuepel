@@ -26,3 +26,4 @@
 #### Version 1.1.0
 - Add Numbercontroller
 - Add Resetrequest
+- Chance Theme to Material3
