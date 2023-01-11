@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kniffel/functions.dart';
 import 'package:kniffel/pages/start.dart';
 import 'package:kniffel/variables.dart';
 
@@ -10,6 +11,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+          primaryColorDark: Colors.deepPurple.shade200,
+          primaryColorLight: Colors.deepPurple.shade200,
+          useMaterial3: true),
+      themeMode: currentThemeMode,
       title: title,
       home: const Startpage(),
     );
