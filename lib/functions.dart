@@ -72,8 +72,7 @@ void checkEmpty(
         calculate();
       } else {
         int inputInt = int.parse(input);
-        treepasch = inputInt;
-        calculate();
+        checkInput(number: 7, input: inputInt, context: context);
       }
       break;
     case 8:
@@ -82,8 +81,7 @@ void checkEmpty(
         calculate();
       } else {
         int inputInt = int.parse(input);
-        fourpasch = inputInt;
-        calculate();
+        checkInput(number: 8, input: inputInt, context: context);
       }
       break;
     case 9:
@@ -92,9 +90,9 @@ void checkEmpty(
         calculate();
       } else {
         int inputInt = int.parse(input);
-        chance = inputInt;
-        calculate();
+        checkInput(number: 9, input: inputInt, context: context);
       }
+      break;
   }
 }
 
@@ -155,6 +153,29 @@ void checkInput(
         calculate();
       }
       break;
+    case 7:
+      if (input <= 30) {
+        treepasch = input;
+        calculate();
+      } else {
+        notAllowedInput(context, input: input, dice: 7);
+      }
+      break;
+    case 8:
+      if (input <= 30) {
+        fourpasch = input;
+        calculate();
+      } else {
+        notAllowedInput(context, input: input, dice: 8);
+      }
+      break;
+    case 9:
+      if (input <= 30) {
+        chance = input;
+        calculate();
+      } else {
+        notAllowedInput(context, input: input, dice: 9);
+      }
   }
 }
 
@@ -165,7 +186,24 @@ calculate() {
 }
 
 void checkBonus() {
-  zwSum = dice1 + dice2 + dice3 + dice4 + dice5 + dice6;
+  if (canceldDice1 == false) {
+    zwSum = zwSum + dice1;
+  }
+  if (canceldDice2 == false) {
+    zwSum = zwSum + dice2;
+  }
+  if (canceldDice3 == false) {
+    zwSum = zwSum + dice3;
+  }
+  if (canceldDice4 == false) {
+    zwSum = zwSum + dice4;
+  }
+  if (canceldDice5 == false) {
+    zwSum = zwSum + dice5;
+  }
+  if (canceldDice6 == false) {
+    zwSum = zwSum + dice6;
+  }
   if (zwSum >= 63) {
     topSum = zwSum + 35;
     bonus = 'Ja';
@@ -176,7 +214,15 @@ void checkBonus() {
 }
 
 void calculateDown() {
-  downSum = treepasch + fourpasch;
+  if (canceldThreePasch == false) {
+    downSum = downSum + treepasch;
+  }
+  if (canceldFourPasch == false) {
+    downSum = downSum + fourpasch;
+  }
+  if (canceldChance == false) {
+    downSum = downSum + chance;
+  }
   if (fullhouse == true) {
     downSum = downSum + 25;
   }
@@ -223,6 +269,18 @@ void notAllowedInput(BuildContext context,
       dice6 = 0;
       calculate();
       break;
+    case 7:
+      treepasch = 0;
+      calculate();
+      break;
+    case 8:
+      fourpasch = 0;
+      calculate();
+      break;
+    case 9:
+      chance = 0;
+      calculate();
+      break;
   }
   dice--;
   TextEditingController pickController = textController[dice];
@@ -239,12 +297,6 @@ void notAllowedInput(BuildContext context,
 }
 
 void reset() {
-  if (currentThemeMode == ThemeMode.light) {
-    colorFullhouse = Colors.grey.shade100;
-    colorSmallStreet = Colors.grey.shade100;
-    colorBigStreet = Colors.grey.shade100;
-    colorKniffel = Colors.grey.shade100;
-  } else {}
   bonus = 'Nein';
   dice1 = 0;
   dice2 = 0;
@@ -267,15 +319,6 @@ void reset() {
   canceldBigStreet = false;
   canceldKniffel = false;
   chance = 0;
-  checkDice1 = false;
-  checkDice2 = false;
-  checkDice3 = false;
-  checkDice4 = false;
-  checkDice5 = false;
-  checkDice6 = false;
-  checkTreePasch1 = false;
-  checkFourPasch2 = false;
-  checkChance = false;
   controllerDice1.clear();
   controllerDice2.clear();
   controllerDice3.clear();
@@ -284,6 +327,18 @@ void reset() {
   controllerDice6.clear();
   controllerThreePasch.clear();
   controllerFourPasch.clear();
-  controlerChance.clear();
+  controllerChance.clear();
+  colorSwitchFullhouse = Colors.deepPurple.shade400;
+  colorSwitchSmallStreet = Colors.deepPurple.shade400;
+  colorSwitchBigStreet = Colors.deepPurple.shade400;
+  colorSwitchKniffel = Colors.deepPurple.shade400;
+  colorBgSwitchFullhouse = Colors.deepPurple.shade100;
+  colorBgSwitchSmallStreet = Colors.deepPurple.shade100;
+  colorBgSwitchBigStreet = Colors.deepPurple.shade100;
+  colorBgSwitchKniffel = Colors.deepPurple.shade100;
+  colorFullhouse = Colors.grey.shade100;
+  colorSmallStreet = Colors.grey.shade100;
+  colorBigStreet = Colors.grey.shade100;
+  colorKniffel = Colors.grey.shade100;
   calculate();
 }

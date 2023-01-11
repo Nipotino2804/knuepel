@@ -8,4 +8,4 @@ final controllerDice5 = TextEditingController();
 final controllerDice6 = TextEditingController();
 final controllerThreePasch = TextEditingController();
 final controllerFourPasch = TextEditingController();
-final controlerChance = TextEditingController();
+final controllerChance = TextEditingController();

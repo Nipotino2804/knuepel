@@ -29,11 +29,16 @@ TableRow costomTableRowDices(
     {required String picture,
     required String content,
     textFieldInput,
-    required TextEditingController controller}) {
+    required TextEditingController controller,
+    required BuildContext context}) {
   return TableRow(children: [
     Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Center(child: Image.asset(picture)),
+      child: Center(
+          child: Image.asset(
+        picture,
+        width: MediaQuery.of(context).size.width * 0.15,
+      )),
     ),
     Padding(
       padding: const EdgeInsets.all(8.0),
@@ -134,7 +139,9 @@ TableRow costomTableRowSwitch(
     required onTap,
     required onDbTap,
     required bool startValue,
-    required Color color}) {
+    required Color color,
+    required Color swColor,
+    required Color swBgColor}) {
   return TableRow(children: [
     Padding(
       padding: const EdgeInsets.all(8.0),
@@ -159,6 +166,8 @@ TableRow costomTableRowSwitch(
         padding: const EdgeInsets.all(8.0),
         child: Center(
             child: Switch(
+          inactiveTrackColor: swBgColor,
+          inactiveThumbColor: swColor,
           value: startValue,
           onChanged: onTap,
         )),

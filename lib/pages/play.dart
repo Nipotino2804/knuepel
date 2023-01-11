@@ -41,6 +41,7 @@ class _PlaypageState extends State<Playpage> {
                         TableBorder.all(color: tableBorderColor, width: 1.5),
                     children: [
                       costomTableRowDices(
+                          context: context,
                           picture: dice1picture,
                           controller: controllerDice1,
                           content: 'nur Einsen\nzählen',
@@ -51,6 +52,7 @@ class _PlaypageState extends State<Playpage> {
                             });
                           }),
                       costomTableRowDices(
+                          context: context,
                           controller: controllerDice2,
                           picture: dice2picture,
                           content: 'nur Zweier\nzählen',
@@ -61,6 +63,7 @@ class _PlaypageState extends State<Playpage> {
                             });
                           }),
                       costomTableRowDices(
+                          context: context,
                           controller: controllerDice3,
                           picture: dice3picture,
                           content: 'nur Dreier\nzählen',
@@ -71,6 +74,7 @@ class _PlaypageState extends State<Playpage> {
                             });
                           }),
                       costomTableRowDices(
+                          context: context,
                           controller: controllerDice4,
                           picture: dice4picture,
                           content: 'nur Vierer\nzählen',
@@ -81,6 +85,7 @@ class _PlaypageState extends State<Playpage> {
                             });
                           }),
                       costomTableRowDices(
+                          context: context,
                           controller: controllerDice5,
                           picture: dice5picture,
                           content: 'nur Fünfer\nzählen',
@@ -91,6 +96,7 @@ class _PlaypageState extends State<Playpage> {
                             });
                           }),
                       costomTableRowDices(
+                          context: context,
                           controller: controllerDice6,
                           picture: dice6picture,
                           content: 'nur Sechser\nzählen',
@@ -147,13 +153,18 @@ class _PlaypageState extends State<Playpage> {
                           }),
                       costomTableRowSwitch(
                           content: 'Fullhouse',
+                          swBgColor: colorBgSwitchFullhouse,
                           contentMiddle: '25 Punkte',
                           color: colorFullhouse,
+                          swColor: colorSwitchFullhouse,
                           onDbTap: () {
                             setState(() {
                               canceldFullhouse = true;
                               fullhouse = false;
                               colorFullhouse = Colors.red;
+                              colorBgSwitchFullhouse = Colors.red;
+                              colorSwitchFullhouse =
+                                  Color.fromARGB(210, 0, 0, 0);
                               calculate();
                             });
                           },
@@ -171,12 +182,18 @@ class _PlaypageState extends State<Playpage> {
                           startValue: fullhouse),
                       costomTableRowSwitch(
                           content: 'kleine Straße',
+                          swBgColor: colorBgSwitchSmallStreet,
                           contentMiddle: '30 Punkte',
                           color: colorSmallStreet,
+                          swColor: colorSwitchSmallStreet,
                           onDbTap: () => setState(() {
                                 canceldSmallStreet = true;
                                 smallStreet = false;
                                 colorSmallStreet = Colors.red;
+                                colorBgSwitchSmallStreet = Colors.red;
+                                colorSwitchSmallStreet =
+                                    Color.fromARGB(210, 0, 0, 0);
+                                ;
                                 calculate();
                               }),
                           onTap: (value) {
@@ -193,12 +210,18 @@ class _PlaypageState extends State<Playpage> {
                           startValue: smallStreet),
                       costomTableRowSwitch(
                           content: 'große Straße',
+                          swBgColor: colorBgSwitchBigStreet,
                           color: colorBigStreet,
+                          swColor: colorSwitchBigStreet,
                           onDbTap: () {
                             setState(() {
                               canceldBigStreet = true;
                               bigStreet = false;
                               colorBigStreet = Colors.red;
+                              colorBgSwitchBigStreet = Colors.red;
+                              colorSwitchBigStreet =
+                                  Color.fromARGB(210, 0, 0, 0);
+                              ;
                               calculate();
                             });
                           },
@@ -217,11 +240,16 @@ class _PlaypageState extends State<Playpage> {
                           startValue: bigStreet),
                       costomTableRowSwitch(
                           content: 'Knüppel',
+                          swBgColor: colorBgSwitchKniffel,
+                          swColor: colorSwitchKniffel,
                           color: colorKniffel,
                           onDbTap: () {
                             setState(() {
                               canceldKniffel = true;
                               kniffel = false;
+                              colorSwitchKniffel = Color.fromARGB(210, 0, 0, 0);
+                              ;
+                              colorBgSwitchKniffel = Colors.red;
                               colorKniffel = Colors.red;
                               calculate();
                             });
@@ -239,13 +267,13 @@ class _PlaypageState extends State<Playpage> {
                           },
                           startValue: kniffel),
                       costomTableRowPasch(
-                          controller: controlerChance,
+                          controller: controllerChance,
                           content: 'Chance',
                           contentMiddle: 'alle Augen\nzählen',
                           textFieldInput: (value) {
                             setState(() {
-                              chance = int.parse(value);
-                              calculate();
+                              checkEmpty(
+                                  number: 9, input: value, context: context);
                             });
                           }),
                       costomTableRowSum(
@@ -261,7 +289,6 @@ class _PlaypageState extends State<Playpage> {
                 ),
                 Column(
                   children: [
-                    // Abstandshalter zu Oben
                     const SizedBox(
                       height: 15,
                     ),
@@ -280,10 +307,6 @@ class _PlaypageState extends State<Playpage> {
                         ],
                       ),
                     ),
-                    /* const Divider(
-                      thickness: 1.5,
-                      color: Colors.black,
-                    ), */
                     const SizedBox(
                       height: 70,
                     ),

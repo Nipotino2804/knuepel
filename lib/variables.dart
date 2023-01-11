@@ -14,23 +14,20 @@ String dice4picture = 'assets/04.png';
 String dice5picture = 'assets/05.png';
 String dice6picture = 'assets/06.png';
 
-// Würfel
+// Points
 int dice1 = 0;
 int dice2 = 0;
 int dice3 = 0;
 int dice4 = 0;
 int dice5 = 0;
 int dice6 = 0;
-
-//Summen
 int zwSum = 0;
 int topSum = 0;
 int downSum = 0;
 int allSum = 0;
-
-// Pasche
 int treepasch = 0;
 int fourpasch = 0;
+int chance = 0;
 
 bool fullhouse = false;
 bool smallStreet = false;
@@ -41,16 +38,31 @@ bool canceldFullhouse = false;
 bool canceldSmallStreet = false;
 bool canceldBigStreet = false;
 bool canceldKniffel = false;
-
-int chance = 0;
+bool canceldDice1 = false;
+bool canceldDice2 = false;
+bool canceldDice3 = false;
+bool canceldDice4 = false;
+bool canceldDice5 = false;
+bool canceldDice6 = false;
+bool canceldThreePasch = false;
+bool canceldFourPasch = false;
+bool canceldChance = false;
 
 //Colors - Default = light
 Color colorFullhouse = Colors.grey.shade100;
 Color colorSmallStreet = Colors.grey.shade100;
 Color colorBigStreet = Colors.grey.shade100;
 Color colorKniffel = Colors.grey.shade100;
+Color colorSwitchFullhouse = Colors.deepPurple.shade400;
+Color colorSwitchSmallStreet = Colors.deepPurple.shade400;
+Color colorSwitchBigStreet = Colors.deepPurple.shade400;
+Color colorSwitchKniffel = Colors.deepPurple.shade400;
+Color colorBgSwitchFullhouse = Colors.deepPurple.shade100;
+Color colorBgSwitchSmallStreet = Colors.deepPurple.shade100;
+Color colorBgSwitchBigStreet = Colors.deepPurple.shade100;
+Color colorBgSwitchKniffel = Colors.deepPurple.shade100;
 Color textColor = Colors.black;
-Color appbarBackgroundColor = Colors.white;
+Color appbarBackgroundColor = Colors.grey.shade100;
 Color appbarForegroundColor = Colors.black;
 Color tableTextBackgroundColor = Colors.grey.shade100;
 Color scaffoldBackgroundColor = Colors.grey.shade100;
@@ -64,17 +76,6 @@ List<int> allowedDice3 = [0, 3, 6, 9, 12, 15, 1];
 List<int> allowedDice4 = [0, 4, 8, 12, 16, 20, 1, 2];
 List<int> allowedDice5 = [0, 5, 10, 15, 20, 25, 1, 2];
 List<int> allowedDice6 = [0, 6, 12, 18, 24, 30, 1, 2, 3];
-
-bool checkDice1 = false;
-bool checkDice2 = false;
-bool checkDice3 = false;
-bool checkDice4 = false;
-bool checkDice5 = false;
-bool checkDice6 = false;
-
-bool checkTreePasch1 = false;
-bool checkFourPasch2 = false;
-bool checkChance = false;
 
 final List inputList = [
   allowedDice1,
@@ -90,6 +91,9 @@ final List textController = [
   controllerDice3,
   controllerDice4,
   controllerDice5,
-  controllerDice6
+  controllerDice6,
+  controllerThreePasch,
+  controllerFourPasch,
+  controllerChance
 ];
 final List diceList = [dice1, dice2, dice3, dice4, dice5, dice6];
