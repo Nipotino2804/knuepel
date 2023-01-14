@@ -37,7 +37,6 @@ TableRow costomTableRowDices(
       child: Center(
           child: Image.asset(
         picture,
-        width: MediaQuery.of(context).size.width * 0.15,
       )),
     ),
     Padding(

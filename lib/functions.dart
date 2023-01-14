@@ -186,24 +186,7 @@ calculate() {
 }
 
 void checkBonus() {
-  if (canceldDice1 == false) {
-    zwSum = zwSum + dice1;
-  }
-  if (canceldDice2 == false) {
-    zwSum = zwSum + dice2;
-  }
-  if (canceldDice3 == false) {
-    zwSum = zwSum + dice3;
-  }
-  if (canceldDice4 == false) {
-    zwSum = zwSum + dice4;
-  }
-  if (canceldDice5 == false) {
-    zwSum = zwSum + dice5;
-  }
-  if (canceldDice6 == false) {
-    zwSum = zwSum + dice6;
-  }
+  zwSum = dice1 + dice2 + dice3 + dice4 + dice5 + dice6;
   if (zwSum >= 63) {
     topSum = zwSum + 35;
     bonus = 'Ja';
@@ -214,15 +197,7 @@ void checkBonus() {
 }
 
 void calculateDown() {
-  if (canceldThreePasch == false) {
-    downSum = downSum + treepasch;
-  }
-  if (canceldFourPasch == false) {
-    downSum = downSum + fourpasch;
-  }
-  if (canceldChance == false) {
-    downSum = downSum + chance;
-  }
+  downSum = treepasch + fourpasch + chance;
   if (fullhouse == true) {
     downSum = downSum + 25;
   }
@@ -235,7 +210,6 @@ void calculateDown() {
   if (kniffel == true) {
     downSum = downSum + 50;
   }
-  downSum = downSum + chance;
 }
 
 void calculateAll() {
