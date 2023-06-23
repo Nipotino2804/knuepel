@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:kniffel/variables.dart';
 
 AppBar costomAppbar({required String text}) {
   return AppBar(
     centerTitle: true,
     title: Text(
       text,
-      style: const TextStyle(color: Colors.black),
+      style: TextStyle(color: textColor),
     ),
-    backgroundColor: Colors.white,
-    foregroundColor: Colors.black,
+    backgroundColor: appbarBackgroundColor,
+    foregroundColor: appbarForegroundColor,
   );
 }
 
@@ -25,11 +26,18 @@ Widget tabelText(
 }
 
 TableRow costomTableRowDices(
-    {required String picture, required String content, textFieldInput}) {
+    {required String picture,
+    required String content,
+    textFieldInput,
+    required TextEditingController controller,
+    required BuildContext context}) {
   return TableRow(children: [
     Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Center(child: Image.asset(picture)),
+      child: Center(
+          child: Image.asset(
+        picture,
+      )),
     ),
     Padding(
       padding: const EdgeInsets.all(8.0),
@@ -37,12 +45,13 @@ TableRow costomTableRowDices(
           child: tabelText(
               content: content,
               weight: FontWeight.normal,
-              bgColor: Colors.white)),
+              bgColor: tableTextBackgroundColor)),
     ),
     Padding(
       padding: const EdgeInsets.all(8.0),
       child: Center(
           child: TextField(
+        controller: controller,
         textAlign: TextAlign.center,
         style: const TextStyle(fontSize: 24),
         onChanged: textFieldInput,
@@ -65,7 +74,7 @@ TableRow costomTableRowSum({
           child: tabelText(
               content: content,
               weight: FontWeight.w600,
-              bgColor: Colors.white)),
+              bgColor: tableTextBackgroundColor)),
     ),
     Padding(
       padding: const EdgeInsets.all(8.0),
@@ -73,7 +82,7 @@ TableRow costomTableRowSum({
           child: tabelText(
               content: contentMiddle,
               weight: FontWeight.normal,
-              bgColor: Colors.white)),
+              bgColor: tableTextBackgroundColor)),
     ),
     Padding(
       padding: const EdgeInsets.all(8.0),
@@ -81,7 +90,7 @@ TableRow costomTableRowSum({
           child: tabelText(
               content: '$sum',
               weight: FontWeight.normal,
-              bgColor: Colors.white)),
+              bgColor: tableTextBackgroundColor)),
     )
   ]);
 }
@@ -89,7 +98,8 @@ TableRow costomTableRowSum({
 TableRow costomTableRowPasch(
     {required String content,
     required String contentMiddle,
-    required textFieldInput}) {
+    required textFieldInput,
+    required TextEditingController controller}) {
   return TableRow(children: [
     Padding(
       padding: const EdgeInsets.all(8.0),
@@ -97,7 +107,7 @@ TableRow costomTableRowPasch(
           child: tabelText(
               content: content,
               weight: FontWeight.w600,
-              bgColor: Colors.white)),
+              bgColor: tableTextBackgroundColor)),
     ),
     Padding(
       padding: const EdgeInsets.all(8.0),
@@ -105,12 +115,13 @@ TableRow costomTableRowPasch(
           child: tabelText(
               content: contentMiddle,
               weight: FontWeight.normal,
-              bgColor: Colors.white)),
+              bgColor: tableTextBackgroundColor)),
     ),
     Padding(
       padding: const EdgeInsets.all(8.0),
       child: Center(
           child: TextField(
+        controller: controller,
         textAlign: TextAlign.center,
         style: const TextStyle(fontSize: 24),
         onChanged: textFieldInput,
@@ -127,7 +138,9 @@ TableRow costomTableRowSwitch(
     required onTap,
     required onDbTap,
     required bool startValue,
-    required Color color}) {
+    required Color color,
+    required Color swColor,
+    required Color swBgColor}) {
   return TableRow(children: [
     Padding(
       padding: const EdgeInsets.all(8.0),
@@ -152,6 +165,8 @@ TableRow costomTableRowSwitch(
         padding: const EdgeInsets.all(8.0),
         child: Center(
             child: Switch(
+          inactiveTrackColor: swBgColor,
+          inactiveThumbColor: swColor,
           value: startValue,
           onChanged: onTap,
         )),

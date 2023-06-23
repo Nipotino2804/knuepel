@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kniffel/main.dart';
+import 'package:kniffel/functions.dart';
+import 'package:kniffel/textfielcontroller.dart';
 import 'package:kniffel/variables.dart';
 import 'package:kniffel/widgets.dart';
 
@@ -14,12 +15,14 @@ class _PlaypageState extends State<Playpage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: scaffoldBackgroundColor,
         floatingActionButton: FloatingActionButton(
             tooltip: 'Zurücksetzten',
             child: const Icon(Icons.restart_alt),
             onPressed: () {
               setState(() {
-                resetAll();
+                resetQuest(context);
+                calculate();
               });
             }),
         // appBar: costomAppbar(text: 'Knüppel'),
@@ -34,60 +37,84 @@ class _PlaypageState extends State<Playpage> {
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Table(
                     defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                    border: TableBorder.all(color: Colors.black, width: 1.5),
+                    border:
+                        TableBorder.all(color: tableBorderColor, width: 1.5),
                     children: [
                       costomTableRowDices(
-                          picture: 'assets/01.png',
+                          picture: dice0picture,
+                          content: 'ein Würfel\nzählt',
+                          controller: controllerDice0,
+                          context: context,
+                          textFieldInput: (value) {
+                            setState(() {
+                              checkEmpty(
+                                  number: 0, input: value, context: context);
+                            });
+                          }),
+                      costomTableRowDices(
+                          context: context,
+                          picture: dice1picture,
+                          controller: controllerDice1,
                           content: 'nur Einsen\nzählen',
                           textFieldInput: (value) {
                             setState(() {
-                              dice1 = int.parse(value);
-                              calculate();
+                              checkEmpty(
+                                  number: 1, input: value, context: context);
                             });
                           }),
                       costomTableRowDices(
-                          picture: 'assets/02.png',
+                          context: context,
+                          controller: controllerDice2,
+                          picture: dice2picture,
                           content: 'nur Zweier\nzählen',
                           textFieldInput: (value) {
                             setState(() {
-                              dice2 = int.parse(value);
-                              calculate();
+                              checkEmpty(
+                                  number: 2, input: value, context: context);
                             });
                           }),
                       costomTableRowDices(
-                          picture: 'assets/03.png',
+                          context: context,
+                          controller: controllerDice3,
+                          picture: dice3picture,
                           content: 'nur Dreier\nzählen',
                           textFieldInput: (value) {
                             setState(() {
-                              dice3 = int.parse(value);
-                              calculate();
+                              checkEmpty(
+                                  number: 3, input: value, context: context);
                             });
                           }),
                       costomTableRowDices(
-                          picture: 'assets/04.png',
+                          context: context,
+                          controller: controllerDice4,
+                          picture: dice4picture,
                           content: 'nur Vierer\nzählen',
                           textFieldInput: (value) {
                             setState(() {
-                              dice4 = int.parse(value);
-                              calculate();
+                              checkEmpty(
+                                  number: 4, input: value, context: context);
                             });
                           }),
                       costomTableRowDices(
-                          picture: 'assets/05.png',
+                          context: context,
+                          controller: controllerDice5,
+                          picture: dice5picture,
                           content: 'nur Fünfer\nzählen',
                           textFieldInput: (value) {
                             setState(() {
-                              dice5 = int.parse(value);
-                              calculate();
+                              checkEmpty(
+                                  number: 5, input: value, context: context);
                             });
                           }),
                       costomTableRowDices(
-                          picture: 'assets/06.png',
+                          context: context,
+                          controller: controllerDice6,
+                          picture: dice6picture,
                           content: 'nur Sechser\nzählen',
                           textFieldInput: (value) {
                             setState(() {
-                              dice6 = int.parse(value);
-                              calculate();
+                              checkEmpty(
+                                  number: 6, input: value, context: context);
                             });
                           }),
                       costomTableRowSum(
@@ -112,35 +139,82 @@ class _PlaypageState extends State<Playpage> {
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Table(
                     defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                    border: TableBorder.all(color: Colors.black, width: 1.5),
+                    border:
+                        TableBorder.all(color: tableBorderColor, width: 1.5),
                     children: [
                       costomTableRowPasch(
+                          content: 'Doppelpasch',
+                          contentMiddle: 'alle Augen\nzählen',
+                          textFieldInput: (value) {
+                            setState(() {
+                              checkEmpty(
+                                  number: 10, input: value, context: context);
+                            });
+                          },
+                          controller: controllerDoppelPasch),
+                      costomTableRowPasch(
+                          controller: controllerThreePasch,
                           content: 'Dreierpasch',
                           contentMiddle: 'alle Augen\nzählen',
                           textFieldInput: (value) {
                             setState(() {
-                              treepasch = int.parse(value);
-                              calculate();
+                              checkEmpty(
+                                  number: 7, input: value, context: context);
                             });
                           }),
                       costomTableRowPasch(
+                          controller: controllerFourPasch,
                           content: 'Viererpasch',
                           contentMiddle: 'alle Augen\nzählen',
                           textFieldInput: (value) {
                             setState(() {
-                              fourpasch = int.parse(value);
-                              calculate();
+                              checkEmpty(
+                                  number: 8, input: value, context: context);
                             });
                           }),
                       costomTableRowSwitch(
-                          content: 'Fullhouse',
-                          contentMiddle: '25 Punkte',
-                          color: colorFullhouse,
+                          content: '10 oder weniger',
+                          contentMiddle: '15 Punkte',
+                          onTap: (value) {
+                            setState(() {
+                              if (tenOrDown == false &&
+                                  canceldTenOrDown == false) {
+                                tenOrDown = true;
+                              } else {
+                                tenOrDown = false;
+                              }
+                              calculate();
+                            });
+                          },
                           onDbTap: () {
                             setState(() {
                               canceldFullhouse = true;
                               fullhouse = false;
                               colorFullhouse = Colors.red;
+                              colorBgSwitchFullhouse = Colors.red;
+                              colorSwitchFullhouse =
+                                  Color.fromARGB(210, 0, 0, 0);
+                              calculate();
+                            });
+                          },
+                          startValue: tenOrDown,
+                          color: colorTenOrDown,
+                          swColor: colorSwitchTenOrDown,
+                          swBgColor: colorBgSwitchTenOrDown),
+                      costomTableRowSwitch(
+                          content: 'Fullhouse',
+                          swBgColor: colorBgSwitchFullhouse,
+                          contentMiddle: '25 Punkte',
+                          color: colorFullhouse,
+                          swColor: colorSwitchFullhouse,
+                          onDbTap: () {
+                            setState(() {
+                              canceldFullhouse = true;
+                              fullhouse = false;
+                              colorFullhouse = Colors.red;
+                              colorBgSwitchFullhouse = Colors.red;
+                              colorSwitchFullhouse =
+                                  Color.fromARGB(210, 0, 0, 0);
                               calculate();
                             });
                           },
@@ -157,13 +231,47 @@ class _PlaypageState extends State<Playpage> {
                           },
                           startValue: fullhouse),
                       costomTableRowSwitch(
+                          content: 'mini Straße',
+                          swBgColor: colorBgSwitchMiniStreet,
+                          contentMiddle: '10 Punkte',
+                          color: colorMiniStreet,
+                          swColor: colorSwitchMiniStreet,
+                          onDbTap: () => setState(() {
+                                canceldMiniStreet = true;
+                                miniStreet = false;
+                                colorMiniStreet = Colors.red;
+                                colorBgSwitchMiniStreet = Colors.red;
+                                colorSwitchMiniStreet =
+                                    Color.fromARGB(210, 0, 0, 0);
+                                ;
+                                calculate();
+                              }),
+                          onTap: (value) {
+                            setState(() {
+                              if (miniStreet == false &&
+                                  canceldMiniStreet == false) {
+                                miniStreet = true;
+                              } else {
+                                miniStreet = false;
+                              }
+                              calculate();
+                            });
+                          },
+                          startValue: miniStreet),
+                      costomTableRowSwitch(
                           content: 'kleine Straße',
+                          swBgColor: colorBgSwitchSmallStreet,
                           contentMiddle: '30 Punkte',
                           color: colorSmallStreet,
+                          swColor: colorSwitchSmallStreet,
                           onDbTap: () => setState(() {
                                 canceldSmallStreet = true;
                                 smallStreet = false;
                                 colorSmallStreet = Colors.red;
+                                colorBgSwitchSmallStreet = Colors.red;
+                                colorSwitchSmallStreet =
+                                    Color.fromARGB(210, 0, 0, 0);
+                                ;
                                 calculate();
                               }),
                           onTap: (value) {
@@ -180,12 +288,18 @@ class _PlaypageState extends State<Playpage> {
                           startValue: smallStreet),
                       costomTableRowSwitch(
                           content: 'große Straße',
+                          swBgColor: colorBgSwitchBigStreet,
                           color: colorBigStreet,
+                          swColor: colorSwitchBigStreet,
                           onDbTap: () {
                             setState(() {
                               canceldBigStreet = true;
                               bigStreet = false;
                               colorBigStreet = Colors.red;
+                              colorBgSwitchBigStreet = Colors.red;
+                              colorSwitchBigStreet =
+                                  Color.fromARGB(210, 0, 0, 0);
+                              ;
                               calculate();
                             });
                           },
@@ -204,11 +318,16 @@ class _PlaypageState extends State<Playpage> {
                           startValue: bigStreet),
                       costomTableRowSwitch(
                           content: 'Knüppel',
+                          swBgColor: colorBgSwitchKniffel,
+                          swColor: colorSwitchKniffel,
                           color: colorKniffel,
                           onDbTap: () {
                             setState(() {
                               canceldKniffel = true;
                               kniffel = false;
+                              colorSwitchKniffel = Color.fromARGB(210, 0, 0, 0);
+                              ;
+                              colorBgSwitchKniffel = Colors.red;
                               colorKniffel = Colors.red;
                               calculate();
                             });
@@ -226,12 +345,13 @@ class _PlaypageState extends State<Playpage> {
                           },
                           startValue: kniffel),
                       costomTableRowPasch(
+                          controller: controllerChance,
                           content: 'Chance',
                           contentMiddle: 'alle Augen\nzählen',
                           textFieldInput: (value) {
                             setState(() {
-                              chance = int.parse(value);
-                              calculate();
+                              checkEmpty(
+                                  number: 9, input: value, context: context);
                             });
                           }),
                       costomTableRowSum(
@@ -247,15 +367,14 @@ class _PlaypageState extends State<Playpage> {
                 ),
                 Column(
                   children: [
-                    // Abstandshalter zu Oben
                     const SizedBox(
                       height: 15,
                     ),
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Table(
-                        border:
-                            TableBorder.all(color: Colors.black, width: 1.5),
+                        border: TableBorder.all(
+                            color: tableBorderColor, width: 1.5),
                         defaultVerticalAlignment:
                             TableCellVerticalAlignment.middle,
                         children: [
@@ -266,10 +385,6 @@ class _PlaypageState extends State<Playpage> {
                         ],
                       ),
                     ),
-                    const Divider(
-                      thickness: 1.5,
-                      color: Colors.black,
-                    ),
                     const SizedBox(
                       height: 70,
                     ),
@@ -279,85 +394,31 @@ class _PlaypageState extends State<Playpage> {
             }));
   }
 
-  void calculateAll() {
-    setState(() {
-      allSum = topSum + downSum;
-    });
-  }
-
-  void checkBonus() {
-    zwSum = dice1 + dice2 + dice3 + dice4 + dice5 + dice6;
-    if (zwSum >= 63) {
-      topSum = zwSum + 35;
-      bonus = 'Ja';
-    } else {
-      topSum = zwSum;
-      bonus = 'Nein';
-    }
-  }
-
-  void calculateDown() {
-    downSum = treepasch + fourpasch;
-    if (fullhouse == true) {
-      downSum = downSum + 25;
-    }
-    if (smallStreet == true) {
-      downSum = downSum + 30;
-    }
-    if (bigStreet == true) {
-      downSum = downSum + 40;
-    }
-    if (kniffel == true) {
-      downSum = downSum + 50;
-    }
-    downSum = downSum + chance;
-  }
-
-  void resetAll() {
-    player = 1;
-
-// Würfel
-    dice1 = 0;
-    dice2 = 0;
-    dice3 = 0;
-    dice4 = 0;
-    dice5 = 0;
-    dice6 = 0;
-
-//Summen
-    zwSum = 0;
-    topSum = 0;
-    downSum = 0;
-    allSum = 0;
-
-// Pasche
-    treepasch = 0;
-    fourpasch = 0;
-
-    fullhouse = false;
-    smallStreet = false;
-    bigStreet = false;
-    kniffel = false;
-
-    canceldFullhouse = false;
-    canceldSmallStreet = false;
-    canceldBigStreet = false;
-    canceldKniffel = false;
-
-    chance = 0;
-    bgColor = Colors.white;
-
-    colorFullhouse = Colors.white;
-    colorSmallStreet = Colors.white;
-    colorBigStreet = Colors.white;
-    colorKniffel = Colors.white;
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const MyApp()));
-  }
-
-  void calculate() {
-    checkBonus();
-    calculateDown();
-    calculateAll();
+  resetQuest(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        actions: [
+          TextButton(
+              onPressed: () {
+                setState(() {
+                  reset();
+                  downSum = 0;
+                  zwSum = 0;
+                  allSum = 0;
+                  topSum = 0;
+                  Navigator.pop(context, 'Ja');
+                });
+              },
+              child: const Text("Ja")),
+          TextButton(
+              onPressed: () => Navigator.pop(context, 'Nein'),
+              child: const Text('Nein'))
+        ],
+        title: const Text('Zurücksetzten'),
+        content: const Text(
+            'Möchten sie ihre Ergebnise wirklick zurücksetzten? Das Zurücksetzten kann nicht rückgängig gemacht werden!'),
+      ),
+    );
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:kniffel/main.dart';
 import 'package:kniffel/pages/information.dart';
 import 'package:kniffel/pages/play.dart';
+import 'package:kniffel/variables.dart';
 
 class Startpage extends StatelessWidget {
   const Startpage({super.key});
@@ -9,6 +9,7 @@ class Startpage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: scaffoldBackgroundColor,
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 18.0),
         child: Row(
@@ -47,14 +48,14 @@ class Startpage extends StatelessWidget {
           padding: const EdgeInsets.all(32.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: [
               /*const Spacer(
                 flex: 3,
               ),*/
               Text(
                 'Willkommen in der Knüppel App!',
                 style: TextStyle(
-                    color: Colors.black,
+                    color: textColor,
                     fontSize: 26,
                     fontWeight: FontWeight.w600),
                 textAlign: TextAlign.center,
