@@ -41,6 +41,17 @@ class _PlaypageState extends State<Playpage> {
                         TableBorder.all(color: tableBorderColor, width: 1.5),
                     children: [
                       costomTableRowDices(
+                          picture: dice0picture,
+                          content: 'ein Würfel\nzählt',
+                          controller: controllerDice0,
+                          context: context,
+                          textFieldInput: (value) {
+                            setState(() {
+                              checkEmpty(
+                                  number: 0, input: value, context: context);
+                            });
+                          }),
+                      costomTableRowDices(
                           context: context,
                           picture: dice1picture,
                           controller: controllerDice1,
@@ -132,6 +143,16 @@ class _PlaypageState extends State<Playpage> {
                         TableBorder.all(color: tableBorderColor, width: 1.5),
                     children: [
                       costomTableRowPasch(
+                          content: 'Doppelpasch',
+                          contentMiddle: 'alle Augen\nzählen',
+                          textFieldInput: (value) {
+                            setState(() {
+                              checkEmpty(
+                                  number: 10, input: value, context: context);
+                            });
+                          },
+                          controller: controllerDoppelPasch),
+                      costomTableRowPasch(
                           controller: controllerThreePasch,
                           content: 'Dreierpasch',
                           contentMiddle: 'alle Augen\nzählen',
@@ -151,6 +172,35 @@ class _PlaypageState extends State<Playpage> {
                                   number: 8, input: value, context: context);
                             });
                           }),
+                      costomTableRowSwitch(
+                          content: '10 oder weniger',
+                          contentMiddle: '15 Punkte',
+                          onTap: (value) {
+                            setState(() {
+                              if (tenOrDown == false &&
+                                  canceldTenOrDown == false) {
+                                tenOrDown = true;
+                              } else {
+                                tenOrDown = false;
+                              }
+                              calculate();
+                            });
+                          },
+                          onDbTap: () {
+                            setState(() {
+                              canceldFullhouse = true;
+                              fullhouse = false;
+                              colorFullhouse = Colors.red;
+                              colorBgSwitchFullhouse = Colors.red;
+                              colorSwitchFullhouse =
+                                  Color.fromARGB(210, 0, 0, 0);
+                              calculate();
+                            });
+                          },
+                          startValue: tenOrDown,
+                          color: colorTenOrDown,
+                          swColor: colorSwitchTenOrDown,
+                          swBgColor: colorBgSwitchTenOrDown),
                       costomTableRowSwitch(
                           content: 'Fullhouse',
                           swBgColor: colorBgSwitchFullhouse,
@@ -180,6 +230,34 @@ class _PlaypageState extends State<Playpage> {
                             });
                           },
                           startValue: fullhouse),
+                      costomTableRowSwitch(
+                          content: 'mini Straße',
+                          swBgColor: colorBgSwitchMiniStreet,
+                          contentMiddle: '10 Punkte',
+                          color: colorMiniStreet,
+                          swColor: colorSwitchMiniStreet,
+                          onDbTap: () => setState(() {
+                                canceldMiniStreet = true;
+                                miniStreet = false;
+                                colorMiniStreet = Colors.red;
+                                colorBgSwitchMiniStreet = Colors.red;
+                                colorSwitchMiniStreet =
+                                    Color.fromARGB(210, 0, 0, 0);
+                                ;
+                                calculate();
+                              }),
+                          onTap: (value) {
+                            setState(() {
+                              if (miniStreet == false &&
+                                  canceldMiniStreet == false) {
+                                miniStreet = true;
+                              } else {
+                                miniStreet = false;
+                              }
+                              calculate();
+                            });
+                          },
+                          startValue: miniStreet),
                       costomTableRowSwitch(
                           content: 'kleine Straße',
                           swBgColor: colorBgSwitchSmallStreet,
