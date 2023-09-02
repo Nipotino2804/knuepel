@@ -188,11 +188,11 @@ class _PlaypageState extends State<Playpage> {
                           },
                           onDbTap: () {
                             setState(() {
-                              canceldFullhouse = true;
-                              fullhouse = false;
-                              colorFullhouse = Colors.red;
-                              colorBgSwitchFullhouse = Colors.red;
-                              colorSwitchFullhouse =
+                              canceldTenOrDown = true;
+                              tenOrDown = false;
+                              colorTenOrDown = Colors.red;
+                              colorBgSwitchTenOrDown = Colors.red;
+                              colorSwitchTenOrDown =
                                   Color.fromARGB(210, 0, 0, 0);
                               calculate();
                             });
