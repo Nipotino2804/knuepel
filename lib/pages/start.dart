@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:kniffel/functions.dart';
 import 'package:kniffel/pages/information.dart';
-import 'package:kniffel/pages/play.dart';
 import 'package:kniffel/variables.dart';
 
-class Startpage extends StatelessWidget {
+class Startpage extends StatefulWidget {
   const Startpage({super.key});
 
+  @override
+  State<Startpage> createState() => _StartpageState();
+}
+
+class _StartpageState extends State<Startpage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +25,7 @@ class Startpage extends StatelessWidget {
               child: FloatingActionButton(
                 tooltip: 'Spiel starten',
                 onPressed: () => Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const Playpage())),
+                    MaterialPageRoute(builder: (context) => modes[mode])),
                 child: const Icon(
                   Icons.play_arrow_rounded,
                   size: 35,
@@ -49,9 +54,9 @@ class Startpage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              /*const Spacer(
+              const Spacer(
                 flex: 3,
-              ),*/
+              ),
               Text(
                 'Willkommen in der Knüppel App!',
                 style: TextStyle(
@@ -60,31 +65,55 @@ class Startpage extends StatelessWidget {
                     fontWeight: FontWeight.w600),
                 textAlign: TextAlign.center,
               ),
-              /*const Spacer(
+              const Spacer(
                 flex: 1,
               ),
               const Text(
-                'Anzahl der Spieler:',
+                'Modus',
                 style: TextStyle(fontSize: 22),
               ),
               const SizedBox(
                 height: 5,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 64.0),
-                child: TextField(
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 24),
-                  onChanged: (value) {
-                    player = int.parse(value);
-                  },
-                  keyboardType: TextInputType.phone,
-                  autocorrect: false,
-                ),
-              ),
+                  padding: const EdgeInsets.symmetric(horizontal: 64.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'Standart',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w400),
+                      ),
+                      const SizedBox(
+                        width: 12,
+                      ),
+                      Switch(
+                        trackOutlineColor:
+                            const MaterialStatePropertyAll(Colors.black87),
+                        trackOutlineWidth: const MaterialStatePropertyAll(1.5),
+                        activeColor: Colors.grey.shade700,
+                        activeTrackColor: Colors.deepPurple.shade100,
+                        inactiveThumbColor: Colors.grey.shade700,
+                        inactiveTrackColor: Colors.deepPurple.shade100,
+                        value: modeValue,
+                        onChanged: (value) => setState(() {
+                          switchMode(value);
+                        }),
+                      ),
+                      const SizedBox(
+                        width: 12,
+                      ),
+                      const Text(
+                        'Erweitert',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w400),
+                      )
+                    ],
+                  )),
               const Spacer(
                 flex: 2,
-              )*/
+              )
             ],
           ),
         ),
