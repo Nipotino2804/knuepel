@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:kniffel/pages/play.dart';
+import 'package:kniffel/pages/play_costom.dart';
 import 'package:kniffel/textfielcontroller.dart';
 
 String title = 'Knüppel';
 String bonus = 'Nein';
 int player = 1;
+bool modeValue = false;
+int mode = 0;
+final List modes = [const Playpage(), const PlaypageCostom()];
 ThemeMode currentThemeMode = ThemeMode.light;
 
 // Pictures

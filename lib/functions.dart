@@ -320,7 +320,19 @@ void notAllowedInput(BuildContext context,
   ));
 }
 
+void switchMode(value) {
+  if (modeValue == true) {
+    mode = 0;
+    modeValue = value;
+  } else {
+    mode = 1;
+    modeValue = value;
+  }
+}
+
 void reset() {
+  modeValue = false;
+  mode = 0;
   bonus = 'Nein';
   dice0 = 0;
   dice1 = 0;

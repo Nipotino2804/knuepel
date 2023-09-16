@@ -4,14 +4,14 @@ import 'package:kniffel/textfielcontroller.dart';
 import 'package:kniffel/variables.dart';
 import 'package:kniffel/widgets.dart';
 
-class Playpage extends StatefulWidget {
-  const Playpage({super.key});
+class PlaypageCostom extends StatefulWidget {
+  const PlaypageCostom({super.key});
 
   @override
-  State<Playpage> createState() => _PlaypageState();
+  State<PlaypageCostom> createState() => _PlaypageCostomState();
 }
 
-class _PlaypageState extends State<Playpage> {
+class _PlaypageCostomState extends State<PlaypageCostom> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,6 +40,17 @@ class _PlaypageState extends State<Playpage> {
                     border:
                         TableBorder.all(color: tableBorderColor, width: 1.5),
                     children: [
+                      costomTableRowDices(
+                          picture: dice0picture,
+                          content: 'ein Würfel\nzählt',
+                          controller: controllerDice0,
+                          context: context,
+                          textFieldInput: (value) {
+                            setState(() {
+                              checkEmpty(
+                                  number: 0, input: value, context: context);
+                            });
+                          }),
                       costomTableRowDices(
                           context: context,
                           picture: dice1picture,
@@ -132,6 +143,16 @@ class _PlaypageState extends State<Playpage> {
                         TableBorder.all(color: tableBorderColor, width: 1.5),
                     children: [
                       costomTableRowPasch(
+                          content: 'Doppelpasch',
+                          contentMiddle: 'alle Augen\nzählen',
+                          textFieldInput: (value) {
+                            setState(() {
+                              checkEmpty(
+                                  number: 10, input: value, context: context);
+                            });
+                          },
+                          controller: controllerDoppelPasch),
+                      costomTableRowPasch(
                           controller: controllerThreePasch,
                           content: 'Dreierpasch',
                           contentMiddle: 'alle Augen\nzählen',
@@ -151,6 +172,35 @@ class _PlaypageState extends State<Playpage> {
                                   number: 8, input: value, context: context);
                             });
                           }),
+                      costomTableRowSwitch(
+                          content: '10 oder weniger',
+                          contentMiddle: '15 Punkte',
+                          onTap: (value) {
+                            setState(() {
+                              if (tenOrDown == false &&
+                                  canceldTenOrDown == false) {
+                                tenOrDown = true;
+                              } else {
+                                tenOrDown = false;
+                              }
+                              calculate();
+                            });
+                          },
+                          onDbTap: () {
+                            setState(() {
+                              canceldTenOrDown = true;
+                              tenOrDown = false;
+                              colorTenOrDown = Colors.red;
+                              colorBgSwitchTenOrDown = Colors.red;
+                              colorSwitchTenOrDown =
+                                  const Color.fromARGB(210, 0, 0, 0);
+                              calculate();
+                            });
+                          },
+                          startValue: tenOrDown,
+                          color: colorTenOrDown,
+                          swColor: colorSwitchTenOrDown,
+                          swBgColor: colorBgSwitchTenOrDown),
                       costomTableRowSwitch(
                           content: 'Fullhouse',
                           swBgColor: colorBgSwitchFullhouse,
@@ -180,6 +230,33 @@ class _PlaypageState extends State<Playpage> {
                             });
                           },
                           startValue: fullhouse),
+                      costomTableRowSwitch(
+                          content: 'mini Straße',
+                          swBgColor: colorBgSwitchMiniStreet,
+                          contentMiddle: '10 Punkte',
+                          color: colorMiniStreet,
+                          swColor: colorSwitchMiniStreet,
+                          onDbTap: () => setState(() {
+                                canceldMiniStreet = true;
+                                miniStreet = false;
+                                colorMiniStreet = Colors.red;
+                                colorBgSwitchMiniStreet = Colors.red;
+                                colorSwitchMiniStreet =
+                                    const Color.fromARGB(210, 0, 0, 0);
+                                calculate();
+                              }),
+                          onTap: (value) {
+                            setState(() {
+                              if (miniStreet == false &&
+                                  canceldMiniStreet == false) {
+                                miniStreet = true;
+                              } else {
+                                miniStreet = false;
+                              }
+                              calculate();
+                            });
+                          },
+                          startValue: miniStreet),
                       costomTableRowSwitch(
                           content: 'kleine Straße',
                           swBgColor: colorBgSwitchSmallStreet,
